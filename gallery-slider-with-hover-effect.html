@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Loop Example</title>
+    <!-- Fancybox CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+    <!-- LightSlider CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.min.css">
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .swiper {
+            height: auto;
+        }
+
+        .swiper-slide {
+            background: none;
+            WIDTH: 324PX !important;
+        }
+
+        #social-box {
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumbnail-image {
+            object-fit: cover !important;
+        }
+
+        .ecommerce-gallery li {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .ecommerce-gallery img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .ecommerce-gallery li:hover img {
+            filter: brightness(50%);
+        }
+
+        .ecommerce-gallery li::before {
+            content: "Click to view ad";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .ecommerce-gallery li:hover::before {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .ecommerce-gallery li {
+                height: 200px;
+            }
+
+            .ecommerce-gallery img {
+                object-fit: contain;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container pt-5 mt-5">
+        <div class="row pt-5 mt-5">
+            <div class="col-lg-6 mx-auto pt-0 pt-lg-5 pt-md-0">
+                <div class="vrmedia-gallery">
+                    <h1>Gallery slider with hover effect</h1>
+                    <p>Slider image dimensions are independant from the gallery dimensions. Images get cropped in
+                        thumbnail view and can be viewed fully by clicking on them.</p>
+                    <p>Using Fancybox & Light Slider with some adjustments.</p>
+                    <ul id="ecommerce-gallery" class="ecommerce-gallery">
+                        <!-- Images will be appended here by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Include Fancybox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Fancy Box Script CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <!-- Light Slider Script CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
+    <!-- Bootstrap Script CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+        // Array containing image file names
+        const ads = [
+            { file_name: '1.jpg' },
+            { file_name: '2.jpg' },
+            { file_name: '3.jpg' }
+        ];
+
+        // Base URL for your FTP or image storage location
+        const ftpBaseUrl = 'images';
+
+        // Reference to the UL element
+        const gallery = document.getElementById('ecommerce-gallery');
+
+        // Loop through the ads array and create the gallery items
+        ads.forEach(ad => {
+            // Create a list item
+            const listItem = document.createElement('li');
+
+            // Create the Fancybox anchor tag
+            const anchor = document.createElement('a');
+            anchor.setAttribute('data-fancybox', 'gallery');
+            anchor.setAttribute('href', ftpBaseUrl + '/' + ad.file_name);
+
+            // Create the image element
+            const img = document.createElement('img');
+            img.setAttribute('class', 'img-fluid thumbnail-image');
+            img.setAttribute('src', ftpBaseUrl + '/' + ad.file_name);
+            img.setAttribute('alt', 'Gallery Image');
+
+            // Append image to anchor, then anchor to list item
+            anchor.appendChild(img);
+            listItem.appendChild(anchor);
+
+            // Append the list item to the gallery UL
+            gallery.appendChild(listItem);
+        });
+
+        jQuery(".ecommerce-gallery").lightSlider({
+            pager: true,
+            item: 1,
+            loop: false,
+            thumbItem: 3,
+            thumbMargin: 10
+        });
+    </script>
+</body>
+
+</html>
